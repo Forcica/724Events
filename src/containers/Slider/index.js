@@ -7,21 +7,30 @@ const Slider = () => {
    const { data } = useData();
    const [index, setIndex] = useState(0);
 
-   const byDateDesc = data?.focus.sort((evtA, evtB) =>
-      new Date(evtA.date) > new Date(evtB.date) ? -1 : 1 // Tri par ordre chronologique décroissant ">" au lieu de "<"
-   );
+   // Vérifier que data et data.focus existent avant de trier
+   const byDateDesc = data?.focus ? data.focus.sort((evtA, evtB) =>
+      new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
+   ) : [];
 
    useEffect(() => { // Modification du useEffect en incluant la gestion des index pour mieux gérer les State de l'index de pagination
-      const interval = setInterval(() => { // Utilisation d'un setInterval pour faire une rotation automatique au lieu du setTimeout
-         setIndex((prevIndex) => (prevIndex + 1) % byDateDesc.length); // Logique de changement d'index avec la fonction modulo
-      }, 5000); // Changement de l'index toutes les 5 secondes
+      if (byDateDesc.length === 0) { // Gestion du cas ou le tableau est vide
+         return () => {};  
+      }
 
-      return () => clearInterval(interval); // Ajout du clean up de l'interval après chaque utilisation de celle ci pour s'assurer que la mémoire n'est pas saturée d'informations éronées
-   }, [byDateDesc.length]); // Changement de l'index toutes les 5 secondes
+      const interval = setInterval(() => {  // Utilisation d'un setInterval pour faire une rotation automatique au lieu du setTimeout
+         setIndex((prevIndex) => (prevIndex + 1) % byDateDesc.length); // Gestion de l'incrementation de l'index
+      }, 5000); // Intervalle de 5 secondes
+
+      return () => clearInterval(interval); // Gestion de la fermeture de l'intervalle
+   }, [byDateDesc.length]); 
+
+   if (!data || !data.focus) { // Gestion du cas ou le tableau est vide
+      return <div>Chargement...</div>;   
+   }
 
    return (
       <div className="SlideCardList">
-         {byDateDesc?.map((event, idx) => (
+         {byDateDesc.map((event, idx) => (
          <div key={event.id}>
             <div
                className={`SlideCard SlideCard--${
@@ -39,12 +48,12 @@ const Slider = () => {
             </div>
             <div className="SlideCard__paginationContainer">
                <div className="SlideCard__pagination">
-               {byDateDesc.map((radioEvent, radioIdx) => (
+               {byDateDesc.map((radioEvent, radioIdx) => ( // Gestion de l'affichage des boutons de pagination -> de (_, radioIdx) a (radioEvent, radioIdx)
                   <input
-                     key={radioEvent.id}
+                     key={radioEvent.id} // Gestion de l'index des boutons de pagination -> de ${event.id} a ${radioEvent.id}
                      type="radio"
                      name="radio-button"
-                     checked={index === radioIdx}
+                     checked={index === radioIdx} // Gestion de l'affichage des boutons de pagination -> de idx === radioIdx a index === radioIdx
                      readOnly
                   />
                ))}
