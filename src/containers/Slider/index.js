@@ -7,31 +7,31 @@ const Slider = () => {
    const { data } = useData();
    const [index, setIndex] = useState(0);
 
-   // Vérifier que data et data.focus existent avant de trier
-   const byDateDesc = data?.focus ? data.focus.sort((evtA, evtB) =>
-      new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
-   ) : [];
+   // Vérifiez que data et data.focus existent avant de trier
+   const byDateDesc = data?.focus
+      ? data.focus.sort((evtA, evtB) =>
+         new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
+         )
+      : []; // Tri des evenements par date de décroissance
 
-   useEffect(() => { // Modification du useEffect en incluant la gestion des index pour mieux gérer les State de l'index de pagination
-      if (byDateDesc.length === 0) { // Gestion du cas ou le tableau est vide
-         return () => {};  
+   useEffect(() => {
+      // Modification du useEffect en incluant la gestion des index pour mieux gérer les State de l'index de pagination
+      if (byDateDesc.length === 0) {
+         return () => {};
       }
 
-      const interval = setInterval(() => {  // Utilisation d'un setInterval pour faire une rotation automatique au lieu du setTimeout
+      const interval = setInterval(() => {
+         // Utilisation d'un setInterval pour faire une rotation automatique au lieu du setTimeout
          setIndex((prevIndex) => (prevIndex + 1) % byDateDesc.length); // Gestion de l'incrementation de l'index
       }, 5000); // Intervalle de 5 secondes
 
       return () => clearInterval(interval); // Gestion de la fermeture de l'intervalle
-   }, [byDateDesc.length]); 
-
-   if (!data || !data.focus) { // Gestion du cas ou le tableau est vide
-      return <div>Chargement...</div>;   
-   }
+   }, [byDateDesc.length]);
 
    return (
       <div className="SlideCardList">
          {byDateDesc.map((event, idx) => (
-         <div key={event.id}>
+         <div key={event.id}> {/* Afin de s'assurer que chaque event à un ID unique et de ne pas avoir de conflit */}
             <div
                className={`SlideCard SlideCard--${
                index === idx ? "display" : "hide"
@@ -48,12 +48,12 @@ const Slider = () => {
             </div>
             <div className="SlideCard__paginationContainer">
                <div className="SlideCard__pagination">
-               {byDateDesc.map((radioEvent, radioIdx) => ( // Gestion de l'affichage des boutons de pagination -> de (_, radioIdx) a (radioEvent, radioIdx)
+               {byDateDesc.map((radioEvent, radioIdx) => (
                   <input
-                     key={radioEvent.id} // Gestion de l'index des boutons de pagination -> de ${event.id} a ${radioEvent.id}
+                     key={radioEvent.id} // Utilisation de clés uniques
                      type="radio"
                      name="radio-button"
-                     checked={index === radioIdx} // Gestion de l'affichage des boutons de pagination -> de idx === radioIdx a index === radioIdx
+                     checked={index === radioIdx}
                      readOnly
                   />
                ))}
