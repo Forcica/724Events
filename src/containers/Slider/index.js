@@ -31,36 +31,30 @@ const Slider = () => {
    return (
       <div className="SlideCardList">
          {byDateDesc.map((event, idx) => (
-         <div key={event.id}> {/* Afin de s'assurer que chaque event à un ID unique et de ne pas avoir de conflit */}
-            <div
-               className={`SlideCard SlideCard--${
-               index === idx ? "display" : "hide"
-               }`}
-            >
+            <div key={event.id || idx} className={`SlideCard SlideCard--${index === idx ? "display" : "hide"}`}>
                <img src={event.cover} alt="forum" />
                <div className="SlideCard__descriptionContainer">
-               <div className="SlideCard__description">
-                  <h3>{event.title}</h3>
-                  <p>{event.description}</p>
-                  <div>{getMonth(new Date(event.date))}</div>
-               </div>
+                  <div className="SlideCard__description">
+                     <h3>{event.title}</h3>
+                     <p>{event.description}</p>
+                     <div>{getMonth(new Date(event.date))}</div>
+                  </div>
                </div>
             </div>
-            <div className="SlideCard__paginationContainer">
-               <div className="SlideCard__pagination">
-               {byDateDesc.map((radioEvent, radioIdx) => (
+         ))}
+         <div className="SlideCard__paginationContainer">
+            <div className="SlideCard__pagination">
+               {byDateDesc.map((event, idx) => (
                   <input
-                     key={radioEvent.id} // Utilisation de clés uniques
+                     key={event.id || idx} // Utilisation de clés uniques
                      type="radio"
                      name="radio-button"
-                     checked={index === radioIdx}
+                     checked={index === idx}
                      readOnly
                   />
                ))}
-               </div>
             </div>
          </div>
-         ))}
       </div>
    );
 };
