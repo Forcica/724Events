@@ -55,6 +55,8 @@ export const DataProvider = ({ children }) => {
       getData();
    });
 
+   // Retait du "useMemo" et ajout data dans le value de DataProvider
+
    return (
       <DataContext.Provider
          // eslint-disable-next-line react/jsx-no-constructed-context-values

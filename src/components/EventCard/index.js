@@ -22,7 +22,7 @@ const EventCard = ({
         <div className="EventCard__label">{label}</div>
       </div>
       <div className="EventCard__descriptionContainer">
-        <div className="EventCard__title" data-testid="avril">{title}</div>
+        <div className="EventCard__title">{title}</div>
         <div className="EventCard__month">{getMonth(date)}</div>
       </div>
     </div>
