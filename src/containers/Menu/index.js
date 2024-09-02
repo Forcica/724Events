@@ -1,4 +1,5 @@
 /* eslint-disable no-return-assign */
+import { Link } from "react-scroll";
 import Button from "../../components/Button";
 import Logo from "../../components/Logo";
 
@@ -9,13 +10,19 @@ const Menu = () => (
     <Logo />
     <ul>
       <li>
-        <a href="#nos-services">Nos services</a>
+        <Link to="nos-services" smooth duration={500} style={{ cursor: 'pointer' }}>
+          Nos services
+        </Link>
       </li>
       <li>
-        <a href="#nos-realisations">Nos réalisations</a>
+        <Link to="nos-realisations" smooth duration={500} style={{ cursor: 'pointer' }}>
+          Nos réalisations
+        </Link>
       </li>
       <li>
-        <a href="#notre-equipe">Notre équipe</a>
+        <Link to="notre-equipe" smooth duration={500} style={{ cursor: 'pointer' }}>
+          Notre équipe
+        </Link>
       </li>
     </ul>
     <Button title="contact" onClick={() => (window.document.location.hash = "#contact")}>
