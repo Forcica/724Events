@@ -12,7 +12,7 @@ const Slider = () => {
       ? data.focus.sort((evtA, evtB) =>
          new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
          )
-      : []; // Tri des evenements par date de décroissance
+      : []; // Tri des evenements par date de décroissance ">"
 
    useEffect(() => {
       // Modification du useEffect en incluant la gestion des index pour mieux gérer les State de l'index de pagination
