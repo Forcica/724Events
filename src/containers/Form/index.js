@@ -23,7 +23,7 @@ const Form = ({ onSuccess, onError }) => {
          }
       },
       [onSuccess, onError]
-  );
+   );
   return (
    <form onSubmit={sendContact}>
       <div className="row">
