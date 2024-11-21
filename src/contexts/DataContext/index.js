@@ -11,7 +11,7 @@ const DataContext = createContext({});
 
 export const api = {
    loadData: async () => {
-      const response = await fetch("/events.json");
+      const response = await fetch(`${process.env.PUBLIC_URL}/events.json`);
       return response.json();
    },
 };
